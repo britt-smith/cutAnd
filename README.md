@@ -31,4 +31,6 @@ sorted bam | 2997574
 bedpe | 1498787
 bedgraph | 411734
 
+The **-n** is *very* important for bam to bed, but sorting before making the index requires sorting *without* the -n
+
 srun samtools sort -n A1_H3K27Ac.ds.bam > A1_H3K27Ac.ds.sorted.bam
