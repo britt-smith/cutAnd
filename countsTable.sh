@@ -17,11 +17,15 @@ BEDTOOLS=/home/groups/MaxsonLab/smithb/KLHOXB_TAG_09_19/Dense_ChromHMM/bedtools2
 
 ### SET I/O VARIABLES
 PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
-MARK=H3K4me1
+MARK=H3K4me3
 IN=$PROJECT/process/30_downsampled/seacr
 IN2=$PROJECT/process/30_downsampled/bams
 OUT=$PROJECT/process/30_downsampled/counts
 mkdir -p $OUT
+
+echo "Superset total:"
+cmd="`cat $IN/$MARK\_merge.bed | awk '{$3=$3"\t""peak_"NR}1' OFS="\t" | tee $IN/$MARK\_bed_for_multicov.bed| wc -l`"
+echo $cmd
 
 echo "Counts table:"
 cmd="$BEDTOOLS multicov -bams $IN2/*$MARK\.ds.sorted.bam -bed $IN/$MARK\_bed_for_multicov.bed > $OUT/$MARK\_counts.txt"

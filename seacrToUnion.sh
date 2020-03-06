@@ -20,12 +20,12 @@ BEDTOOLS=/home/groups/MaxsonLab/smithb/KLHOXB_TAG_09_19/Dense_ChromHMM/bedtools2
 
 ### SET I/O VARIABLES
 PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
-MARK=H3K4me1
+MARK=H3K4me3
 IN=$PROJECT/process/30_downsampled/beds
 IN2=$PROJECT/process/30_downsampled/bams
 OUT=$PROJECT/process/30_downsampled/seacr
 OUT2=$PROJECT/process/30_downsampled/counts
-TODO=$PROJECT/cuttag/todo/30_downsampleH3K4me1Todo.txt
+TODO=$PROJECT/cuttag/todo/30_downsampleH3K4me3Todo.txt
 mkdir -p $OUT
 mkdir -p $OUT2
 
@@ -43,18 +43,18 @@ currINFO=`awk -v line=$SLURM_ARRAY_TASK_ID '{if (NR == line) print $0}' $TODO`
 
 ### Set variables
 NAME=${currINFO%%.bam}
-CTL=${NAME%%_*}_IgG.ds.bedgraph
+#CTL=${NAME%%_*}_IgG.ds.bedgraph
 DATA=$NAME.ds.bedgraph
 
 ### Execute
 cmd="$SEACR $IN/$DATA $IN/$CTL $NORM $THRESH $OUT/$NAME"
 echo $cmd
-eval $cmd
+#eval $cmd
 
 ### Number of peaks
 echo "Number of peaks:"
 cmd="cat $OUT/$NAME\.relaxed.bed | wc -l"
-eval $cmd
+#eval $cmd
 
 ### Merge peaks
 if [[ "$DATA" == *1_* ]]; then
@@ -77,13 +77,5 @@ eval $cmd
 echo "Replicate merge total:"
 cmd="cat $OUT/*$MARK\_*_merge.bed | sort -k1,1 -k2,2n | $BEDTOOLS merge | tee $OUT/$MARK\_merge.bed | wc -l"
 echo $cmd
-#eval $cmd
+eval $cmd
 
-echo "Superset total:"
-cmd="`cat $OUT/$MARK\_merge.bed | awk '{$3==$3"\t""peak_"NR}1' OFS="\t" | tee $OUT/$MARK\_bed_for_multicov.bed | wc -l`"
-#echo $cmd
-
-echo "Counts table:"
-cmd="$BEDTOOLS multicov -bams $IN2/*$MARK\.ds.sorted.bam -bed $OUT/$MARK\_bed_for_multicov.bed > $OUT2/$MARK\_counts.txt"
-echo $cmd
-#eval $cmd
