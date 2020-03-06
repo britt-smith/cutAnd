@@ -15,23 +15,19 @@
 #SBATCH --array              1-8                    # sets number of jobs in array
 
 ### Executable
-SEACR=/home/groups/MaxsonLab/software/SEACR/SEACR_1.1.sh
-BEDTOOLS=/home/groups/MaxsonLab/smithb/KLHOXB_TAG_09_19/Dense_ChromHMM/bedtools2/bin/bedtools
+#BEDTOOLS=/home/groups/MaxsonLab/smithb/KLHOXB_TAG_09_19/Dense_ChromHMM/bedtools2/bin/bedtools
 
 ### SET I/O VARIABLES
 PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
-MARK=H3K4me3
+source $PROJECT/cutAnd_seacr/cutAndConfig.sh
+#MARK=H3K4me3
 IN=$PROJECT/process/30_downsampled/beds
 IN2=$PROJECT/process/30_downsampled/bams
 OUT=$PROJECT/process/30_downsampled/seacr
 OUT2=$PROJECT/process/30_downsampled/counts
-TODO=$PROJECT/cuttag/todo/30_downsampleH3K4me3Todo.txt
+TODO=$PROJECT/cuttag/todo/30_downsampleTodo.txt
 mkdir -p $OUT
 mkdir -p $OUT2
-
-### Other arguments
-NORM="norm"
-THRESH="relaxed"
 
 ### Record slurm info
 echo "SLURM_JOBID: " $SLURM_JOBID
@@ -43,18 +39,7 @@ currINFO=`awk -v line=$SLURM_ARRAY_TASK_ID '{if (NR == line) print $0}' $TODO`
 
 ### Set variables
 NAME=${currINFO%%.bam}
-#CTL=${NAME%%_*}_IgG.ds.bedgraph
 DATA=$NAME.ds.bedgraph
-
-### Execute
-cmd="$SEACR $IN/$DATA $IN/$CTL $NORM $THRESH $OUT/$NAME"
-echo $cmd
-#eval $cmd
-
-### Number of peaks
-echo "Number of peaks:"
-cmd="cat $OUT/$NAME\.relaxed.bed | wc -l"
-#eval $cmd
 
 ### Merge peaks
 if [[ "$DATA" == *1_* ]]; then
