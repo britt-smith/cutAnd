@@ -14,13 +14,12 @@
 #SBATCH --error              seacr_%A_%a.err     # Standard error
 #SBATCH --array              1-8                    # sets number of jobs in array
 
-### Executable
-#BEDTOOLS=/home/groups/MaxsonLab/smithb/KLHOXB_TAG_09_19/Dense_ChromHMM/bedtools2/bin/bedtools
 
-### SET I/O VARIABLES
 PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
+
+###############################################################
+
 source $PROJECT/cutAnd_seacr/cutAndConfig.sh
-#MARK=H3K4me3
 IN=$PROJECT/process/30_downsampled/beds
 IN2=$PROJECT/process/30_downsampled/bams
 OUT=$PROJECT/process/30_downsampled/seacr
