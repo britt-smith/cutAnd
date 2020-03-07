@@ -20,10 +20,10 @@ PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
 ###############################################################
 
 source $PROJECT/cutAnd_seacr/cutAndConfig.sh
-IN=$PROJECT/process/30_downsampled/beds
-IN2=$PROJECT/process/30_downsampled/bams
-OUT=$PROJECT/process/30_downsampled/seacr
-OUT2=$PROJECT/process/30_downsampled/counts
+IN=$PROJECT/process/cutAnd_seacr/beds
+IN2=$PROJECT/process/cutAnd_seacr/bams
+OUT=$PROJECT/process/cutAnd_seacr/seacr
+OUT2=$PROJECT/process/cutAnd_seacr/counts
 TODO=$PROJECT/cuttag/todo/30_downsampleTodo.txt
 mkdir -p $OUT
 mkdir -p $OUT2
