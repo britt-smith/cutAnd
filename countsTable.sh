@@ -12,11 +12,11 @@
 #SBATCH --output             counts_%A.out     # Standard output
 #SBATCH --error              counts_%A.err     # Standard error
 
-### Executable
-#BEDTOOLS=/home/groups/MaxsonLab/smithb/KLHOXB_TAG_09_19/Dense_ChromHMM/bedtools2/bin/bedtools
 
-### SET I/O VARIABLES
 PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
+
+########################################################
+
 source $PROJECT/cutAnd_seacr/cutAndConfig.sh
 
 MARK=H3K4me3
