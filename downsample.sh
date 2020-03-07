@@ -14,30 +14,21 @@
 #SBATCH --error              downsample_%A_%a.err           # Standard error
 #SBATCH --array              1-8                     # sets number of jobs in array
 
-### Executable
-#SAMTOOLS=/home/groups/MaxsonLab/software/miniconda3/bin/samtools
-#BEDTOOLS=/home/groups/MaxsonLab/smithb/KLHOXB_TAG_09_19/Dense_ChromHMM/bedtools2/bin/bedtools
-#SEACR=/home/groups/MaxsonLab/software/SEACR/SEACR_1.1.sh
+#Set array number and your project directory
 
-### SET VARIABLES
-#Set your project directory
-#PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
+PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
+
+#########################################################
 
 source /home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19/cutAnd_seacr/cutAndConfig.sh
 
-#Choose mouse or human, place # infront of genome you aren't using
-#REF=/home/groups/MaxsonLab/software/ChromHMM/CHROMSIZES/hg38.txt
-#REF=/home/groups/MaxsonLab/software/ChromHMM/CHROMSIZES/mm10.txt
-
-#change read number (RN) to what you want to downsample to
-#RN=3000000
-
-### Other arguments
+#For seacr
 NORM="norm"
 THRESH="relaxed"
 
 #These don't need to change
 TODO=$PROJECT/cuttag/todo/30_downsampleTodo.txt
+META=$PROJECT/cutAnd_seacr/metadata.txt
 IN=$PROJECT/process/20_alignments
 OUT1=$PROJECT/process/30_downsampled/bams
 OUT2=$PROJECT/process/30_downsampled/beds
@@ -56,14 +47,11 @@ currINFO=`awk -v line=$SLURM_ARRAY_TASK_ID '{if (NR == line) print $0}' $TODO`
 NAME=${currINFO%%.bam}
 echo "Name:"
 echo $NAME
-CTL=${NAME%%_*}_IgG.ds.bedgraph
-DATA=$NAME.ds.bedgraph
 
 #Sort bam files
 cmd="$SAMTOOLS sort $IN/$currINFO -o $OUT1/$NAME\.sorted.bam"
 echo $cmd
 eval $cmd
-
 
 ### Calculate the fraction of reads to downsample to a certain number (i.e. 3 million reads) (Eye Bioinformatician)
 # ds in the output name stands for downsample, if fraction >1 it will print .99, adding 42 for the random seed
@@ -75,7 +63,6 @@ cmd="$SAMTOOLS view -bs $scale $OUT1/$NAME\.sorted.bam > $OUT1/$NAME\.ds.bam"
 echo "Downsample"
 echo $cmd
 eval $cmd
-
 
 ### Sort bam by locus
 cmd="$SAMTOOLS sort $OUT1/$NAME\.ds.bam > $OUT1/$NAME\.ds.sorted.bam"
@@ -125,6 +112,16 @@ echo $bedgraph
 eval $bedgraph
 
 ### Seacr Peaks
+#set variables
+SAM=`awk -v line=$SLURM_ARRAY_TASK_ID '{if (NR == line) print $1}' $META`
+CON=`awk -v line=$SLURM_ARRAY_TASK_ID '{if (NR == line) print $2}' $META`
+echo "SAMPLE:"
+echo $SAM
+echo "CONTROL:"
+echo $CON
+CTL=$CON\.ds.bedgraph
+DATA=$NAME\.ds.bedgraph
+
 cmd="$SEACR $OUT2/$DATA $OUT2/$CTL $NORM $THRESH $OUT3/$NAME"
 echo $cmd
 eval $cmd
