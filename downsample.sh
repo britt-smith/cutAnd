@@ -51,42 +51,42 @@ echo $NAME
 #Sort bam files
 cmd="$SAMTOOLS sort $IN/$currINFO -o $OUT1/$NAME\.sorted.bam"
 echo $cmd
-#eval $cmd
+eval $cmd
 
 ### Calculate the fraction of reads to downsample to a certain number (i.e. 3 million reads) (Eye Bioinformatician)
 # ds in the output name stands for downsample, if fraction >1 it will print .99, adding 42 for the random seed
-#frac=$(samtools idxstats $OUT1/$NAME\.sorted.bam | cut -f3 | awk -v DS="$RN" 'BEGIN {total=0} {total += $1} END {frac=DS/total; if (frac > 1) {print .99} else {print frac}}')
-#scale=`echo "42+$frac" | bc`
+frac=$(samtools idxstats $OUT1/$NAME\.sorted.bam | cut -f3 | awk -v DS="$RN" 'BEGIN {total=0} {total += $1} END {frac=DS/total; if (frac > 1) {print .99} else {print frac}}')
+scale=`echo "42+$frac" | bc`
 echo "Scale:"
 echo $scale
 cmd="$SAMTOOLS view -bs $scale $OUT1/$NAME\.sorted.bam > $OUT1/$NAME\.ds.bam"
 echo "Downsample"
 echo $cmd
-#eval $cmd
+eval $cmd
 
 ### Sort bam by locus
 cmd="$SAMTOOLS sort $OUT1/$NAME\.ds.bam > $OUT1/$NAME\.ds.sorted.bam"
 echo "Sort bam"
 echo $cmd
-#eval $cmd
+eval $cmd
 
 ### Index bam files
 cmd="$SAMTOOLS index $OUT1/$NAME\.ds.sorted.bam"
 echo "Index bam"
 echo $cmd
-#eval $cmd
+eval $cmd
 
 ### Sort bam by name
 cmd="$SAMTOOLS sort -n $OUT1/$NAME\.ds.bam > $OUT1/$NAME\.ds.name.sorted.bam"
 echo "Sort bam"
 echo $cmd
-#eval $cmd
+eval $cmd
 
 ### Bam to bed
 cmd="$BEDTOOLS bamtobed -bedpe -i $OUT1/$NAME\.ds.name.sorted.bam > $OUT2/$NAME\.ds.bed"
 echo "Bam to bed"
 echo $cmd
-#eval $cmd
+eval $cmd
 
 ### Commands
 cleanBed="awk '\$1==\$4 && \$6-\$2 < 1000 {print \$0}' $OUT2/$NAME\.ds.bed > $OUT2/$NAME.ds.clean.bed"
@@ -97,19 +97,19 @@ bedgraph="$BEDTOOLS genomecov -bg -i $OUT2/$NAME.ds.sortfragments.bed -g $REF > 
 ### Run
 echo "Clean bed"
 echo $cleanBed
-#eval $cleanBed
+eval $cleanBed
 
 echo "Get fragments"
 echo $getFrag
-#eval $getFrag
+eval $getFrag
 
 echo "Sort fragments"
 echo $sortFrag
-#eval $sortFrag
+eval $sortFrag
 
 echo "Convert to bedgraph"
 echo $bedgraph
-#eval $bedgraph
+eval $bedgraph
 
 ### Seacr Peaks
 #set variables
@@ -121,9 +121,9 @@ DATA=$NAME\.ds.bedgraph
 
 cmd="$SEACR $OUT2/$DATA $OUT2/$CTL $NORM $THRESH $OUT3/$NAME"
 echo $cmd
-#eval $cmd
+eval $cmd
 
 ### Number of peaks
 echo "Number of peaks:"
 cmd="cat $OUT3/$NAME\.relaxed.bed | wc -l"
-#eval $cmd
+eval $cmd
