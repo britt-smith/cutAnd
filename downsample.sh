@@ -30,9 +30,9 @@ THRESH="relaxed"
 TODO=$PROJECT/cuttag/todo/30_downsampleTodo.txt
 META=$PROJECT/cutAnd_seacr/metadata.txt
 IN=$PROJECT/process/20_alignments
-OUT1=$PROJECT/process/30_downsampled/bams
-OUT2=$PROJECT/process/30_downsampled/beds
-OUT3=$PROJECT/process/30_downsampled/seacr
+OUT1=$PROJECT/process/cutAnd_seacr/bams
+OUT2=$PROJECT/process/cutAnd_seacr/beds
+OUT3=$PROJECT/process/cutAnd_seacr/seacr
 mkdir -p $OUT1
 mkdir -p $OUT2
 mkdir -p $OUT3
