@@ -20,7 +20,7 @@ PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
 
 #########################################################
 
-source /home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19/cutAnd_seacr/cutAndConfig.sh
+source $PROJECT/cutAnd_seacr/cutAndConfig.sh
 
 #For seacr
 NORM="norm"

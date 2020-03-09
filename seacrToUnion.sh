@@ -23,10 +23,8 @@ source $PROJECT/cutAnd_seacr/cutAndConfig.sh
 IN=$PROJECT/process/cutAnd_seacr/beds
 IN2=$PROJECT/process/cutAnd_seacr/bams
 OUT=$PROJECT/process/cutAnd_seacr/seacr
-OUT2=$PROJECT/process/cutAnd_seacr/counts
 TODO=$PROJECT/cuttag/todo/30_downsampleTodo.txt
 mkdir -p $OUT
-mkdir -p $OUT2
 
 ### Record slurm info
 echo "SLURM_JOBID: " $SLURM_JOBID

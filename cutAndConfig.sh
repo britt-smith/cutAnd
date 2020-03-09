@@ -25,3 +25,4 @@ MARK=H3K27Ac
 SAMTOOLS=/home/groups/MaxsonLab/software/miniconda3/bin/samtools
 BEDTOOLS=/home/groups/MaxsonLab/smithb/KLHOXB_TAG_09_19/Dense_ChromHMM/bedtools2/bin/bedtools
 SEACR=/home/groups/MaxsonLab/software/SEACR/SEACR_1.1.sh
+umask 007
