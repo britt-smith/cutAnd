@@ -34,3 +34,13 @@ bedgraph | 411734
 The **-n** is *very* important for bam to bed, but sorting before making the index requires sorting *without* the -n
 
 srun samtools sort -n A1_H3K27Ac.ds.bam > A1_H3K27Ac.ds.sorted.bam
+
+**SEACR peaks**
+
+sample | seacr peaks rep1 | seacr peaks rep2 | ref 1 merge | ref 2 merge
+-------|--------------------|-------------------|----------|-----------------
+ND_H3K4me3 | 8491 | 8588 | 8107 | 8118
+A_H3K4me3 | 9549 | 9982 | 9328 | 9338
+G_H3K4me3 | 8346 | 9770 | 8277 | 8304
+AG_H3K4me3 | 6189 | 9864 | 6152 | 6155
+**TOTAL** | 9534
